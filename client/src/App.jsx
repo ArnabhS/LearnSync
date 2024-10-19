@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import ChatBotPage from "./pages/ChatBotPage";
 import Question from "./pages/Question";
 import { useSelector } from "react-redux";
+import Signup from "./pages/Signup";
 
 function App() {
   const { user, loading } = useSelector((state) => state.auth);
