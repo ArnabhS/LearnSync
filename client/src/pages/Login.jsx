@@ -29,7 +29,10 @@ export default function Login() {
   };
 
   // Optionally render the questions in the same component if user is logged in and has firstLoginQuestions
-  // add this functionality
+  if (firstLoginQuestions?.length > 0) {
+    console.log(firstLoginQuestions);
+    return <Questions questions={firstLoginQuestions} />;
+  }
 
   return (
     <div className="relative flex flex-col justify-center items-center min-h-screen">
