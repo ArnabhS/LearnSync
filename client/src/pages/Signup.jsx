@@ -5,7 +5,7 @@ import { FaUserLarge } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../redux/authSlice";
-
+import toast from "react-hot-toast";
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
