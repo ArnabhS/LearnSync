@@ -1,5 +1,4 @@
 #root {
-  /* max-width: 1280px; */
   margin: 0 auto;
   font-family: "Instrument Sans", sans-serif;
 }
@@ -8,14 +7,13 @@ body {
   background-color: #060e12;
 }
 
-/* Hide the scroll bar but allow scrolling */
 .hide-scroll-bar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .hide-scroll-bar::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  display: none; 
 }
 
 .custom-radio {
