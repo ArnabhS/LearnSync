@@ -19,6 +19,14 @@ export default function Signup() {
     e.preventDefault();
     const result = await dispatch(signupUser({ name, email, password }));
     if (result.meta.requestStatus === "fulfilled") {
+      toast.success("Registration Success", {
+        icon: "👍",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       navigate("/login");
     }
   };

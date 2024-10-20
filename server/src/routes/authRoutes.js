@@ -7,11 +7,11 @@ const {
   logoutUser,
   getUser,
 } = require("../controllers/authController.js");
-// const { getQuestions } = require('../controllers/questionController.js')
+const { getQuestions } = require("../controllers/questionController.js");
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", verifyToken, logoutUser);
-router.get("/me",  getUser);
-// router.get("/get-questions", verifyToken, getQuestions);
+router.get("/me", getUser);
+router.get("/get-questions", verifyToken, getQuestions);
 module.exports = router;
