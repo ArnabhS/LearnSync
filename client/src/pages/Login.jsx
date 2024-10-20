@@ -18,7 +18,7 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(loginUser({ email, password }));
-    console.log(result);
+    // console.log(result);
     if (result.meta.requestStatus === "fulfilled") {
       toast.success("Log In Success", {
         icon: "👏",
@@ -39,7 +39,7 @@ export default function Login() {
 
   // Optionally render the questions in the same component if user is logged in and has firstLoginQuestions
   if (firstLoginQuestions?.length > 0) {
-    console.log(firstLoginQuestions);
+    // console.log(firstLoginQuestions);
     return <Questions questions={firstLoginQuestions} />;
   }
 

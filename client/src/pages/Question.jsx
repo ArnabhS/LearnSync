@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function Questions() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
@@ -17,13 +19,13 @@ export default function Questions() {
     const fetchQuestions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/v1/auth/get-questions",
+          `${BASE_URL}/api/v1/auth/get-questions`,
           {
             withCredentials: true,
           }
         );
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setQuestions(data.newQuestions || []);
         setLoading(false);
       } catch (error) {
@@ -74,16 +76,16 @@ export default function Questions() {
 
     const finalAnswer = selectedOption[0];
     const finalAnswersArray = [...answers, finalAnswer];
-    console.log(finalAnswersArray);
+    // console.log(finalAnswersArray);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/test/submit-answers",
+        `${BASE_URL}/api/v1/test/submit-answers`,
         { answers: finalAnswersArray },
         {
           withCredentials: true,
         }
       );
-      console.log("Answers submitted successfully:", response.data);
+      // console.log("Answers submitted successfully:", response.data);
       navigate("/chat"); // Use navigate to redirect
     } catch (error) {
       console.error("Error submitting answers:", error);

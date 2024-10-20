@@ -6,19 +6,22 @@ import TextareaAutosize from "react-textarea-autosize";
 import { nanoid } from "nanoid";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { ImVolumeMute2 } from "react-icons/im";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function ChatBotPage() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [showIntro, setShowIntro] = useState(true);
-  const [nextQuestions, setNextQuestions] = useState(null); // To store next questions
-  const [showMCQModal, setShowMCQModal] = useState(false); // To control MCQ modal visibility
+  const [nextQuestions, setNextQuestions] = useState(null);
+  const [showMCQModal, setShowMCQModal] = useState(false);
   const messagesEndRef = useRef(null);
+  const [loading, setLoading] = useState(false); // Loading state
 
-  //listen feature
+  // Listen feature
   const [synth] = useState(window.speechSynthesis);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
@@ -29,45 +32,37 @@ export default function ChatBotPage() {
   // Function to send messages to the bot and update the chat
   const sendMessage = async (message) => {
     if (message.text.trim() === "") return;
+    setInput("");
 
-    // Update the messages state to display the user's message
     setMessages((prevMessages) => [...prevMessages, message]);
+    setLoading(true); // Start loading
 
     try {
-      // Send the message to the backend using axios
       const response = await axios.post(
-        "http://localhost:5000/api/v1/chat-bot",
-        {
-          message: message.text,
-        },
+        `${BASE_URL}/api/v1/chat-bot`,
+        { message: message.text },
         { withCredentials: true }
       );
 
-      // Log the response data
-      console.log(response.data);
+      // console.log(response.data);
 
-      // Update the messages state with the bot's response
       setMessages((prevMessages) => [
         ...prevMessages,
-        {
-          id: nanoid(),
-          isUserMessage: false,
-          text: response.data.message, // Bot's response
-        },
+        { id: nanoid(), isUserMessage: false, text: response.data.message },
       ]);
 
-      // If there are next questions, handle them accordingly
       if (response.data.nextQuestions) {
-        setNextQuestions(response.data.nextQuestions); // Store next questions
-        setShowMCQModal(true); // Show the MCQ modal
+        setNextQuestions(response.data.nextQuestions);
+        setShowMCQModal(true);
       }
     } catch (error) {
       console.error("Error in chatbot interaction:", error);
+    } finally {
+      setLoading(false); // Stop loading
     }
 
-    // Clear the input field and hide the intro section
-    setInput(""); // Clear the input after processing the message
-    setShowIntro(false); // Hide intro after the first message is sent
+    setInput("");
+    setShowIntro(false);
   };
 
   // Scroll to bottom when new messages are added
@@ -75,7 +70,7 @@ export default function ChatBotPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  //listen feature
+  // Listen feature
   const speakText = (text) => {
     if (synth.speaking) {
       synth.cancel();
@@ -97,56 +92,24 @@ export default function ChatBotPage() {
               <img src={robotImage} alt="Robot" className="h-20 w-20" />
             </div>
 
-            <div className="w-full md:w-[96%] lg:w-[90%] mx-auto p-1 md:p-2 flex justify-between gap-1 space-x-2 text-balance mb-10">
-              <div
-                className="bg-[#00bfff] bg-opacity-30 p-1 md:p-2 lg:p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] lg:w-[25%] md:w-[25%] transition ease-in-out duration-300 text-sm font-base lg:text-lg md:font-semibold shadow-2xl shadow-[#00FFAE] inset-10"
-                onClick={() =>
-                  handleCardClick("Your Personalized Learning Companion!")
-                }
-              >
-                <p className="text-center">
-                  <span className="text-[#DCECF2]">
-                    Your <span className="text-[#00FFAE]">Personalized</span>{" "}
-                    Learning <span className="text-[#00FFAE]">Companion!</span>
-                  </span>
-                </p>
-              </div>
-
-              <div
-                className="bg-[#00bfff] bg-opacity-30 p-1 md:p-2 lg:p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] md:w-[25%] lg:w-[25%] transition ease-in-out duration-300 text-sm font-base md:font-semibold lg:text-lg shadow-2xl shadow-[#00FFAE] inset-10"
-                onClick={() =>
-                  handleCardClick(
-                    "Where AI Meets Empathy for Meaningful Growth"
-                  )
-                }
-              >
-                <p className="text-center">
-                  <span className="text-[#DCECF2]">
-                    Where <span className="text-[#00FFAE]">AI</span> Meets{" "}
-                    <span className="text-[#00FFAE]">Empathy</span> for
-                    Meaningful <span className="text-[#00FFAE]">Growth</span>
-                  </span>
-                </p>
-              </div>
-
-              <div
-                className="bg-[#00bfff] bg-opacity-30 p-1 md:p-2 lg:p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] md:w-[25%] lg:w-[25%] transition ease-in-out duration-300 text-sm font-base md:font-semibold lg:text-lg shadow-2xl shadow-[#00FFAE] inset-10"
-                onClick={() =>
-                  handleCardClick("Understanding You, Enhancing Learning")
-                }
-              >
-                <p className="text-center">
-                  <span className="text-[#DCECF2]">
-                    Understanding <span className="text-[#00FFAE]">You</span>,
-                    Enhancing <span className="text-[#00FFAE]">Learning</span>
-                  </span>
-                </p>
-              </div>
+            <div className="w-full md:w-[96%] lg:w-[90%] mx-auto p-1 md:p-2 flex justify-between gap-1 space-x-2 mb-10">
+              {[
+                "What's git and github?",
+                "In short define force",
+                "What is gravity?",
+              ].map((text) => (
+                <div
+                  key={text}
+                  className="bg-[#00bfff] bg-opacity-30 p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] transition duration-300 text-lg shadow-2xl shadow-[#00FFAE] cursor-pointer"
+                  onClick={() => handleCardClick(text)}
+                >
+                  <p className="text-center text-[#DCECF2]">{text}</p>
+                </div>
+              ))}
             </div>
           </>
         )}
 
-        {/* Message Container */}
         {!showIntro && (
           <div className="h-[75vh] -mt-2 rounded-lg overflow-y-auto">
             <div className="w-[90%] md:w-[60%] mx-auto space-y-4 flex-1">
@@ -158,20 +121,16 @@ export default function ChatBotPage() {
                   }`}
                 >
                   <div
-                    className={`p-3 rounded-lg md:text-lg text-sm ${
+                    className={`p-3 rounded-lg text-sm max-w-[70%] ${
                       msg.isUserMessage
                         ? "bg-[#5E808DB5] text-gray-300"
-                        : "bg-stone-800 text-wrap z-10 text-cyan-100 tracking-wider"
-                    } max-w-[70%] flex flex-col`} // Use flex-col for vertical alignment
+                        : "bg-stone-800 text-cyan-100"
+                    } flex flex-col`}
                   >
-                    {/* Message content */}
-                    <div className="flex-1">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                        {msg.text}
-                      </ReactMarkdown>
-                    </div>
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {msg.text}
+                    </ReactMarkdown>
 
-                    {/* "Listen" button aligned at the bottom */}
                     {!msg.isUserMessage && (
                       <button
                         className="mt-2 self-end text-sm text-blue-400 underline"
@@ -183,6 +142,10 @@ export default function ChatBotPage() {
                   </div>
                 </div>
               ))}
+
+              {loading && (
+                <div className="text-center text-white">Generating...</div>
+              )}
 
               <div ref={messagesEndRef} />
             </div>
@@ -197,12 +160,11 @@ export default function ChatBotPage() {
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
-                  const message = {
+                  sendMessage({
                     id: nanoid(),
                     isUserMessage: true,
                     text: input,
-                  };
-                  sendMessage(message);
+                  });
                 }
               }}
               minRows={1}
@@ -222,10 +184,9 @@ export default function ChatBotPage() {
         </div>
       </div>
 
-      {/* Assessment Modal */}
       {showMCQModal && nextQuestions && (
-        <div className=" w-full h-screen  fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 ">
-          <div className="bg-stone-100 md:px-8 p-6 rounded-lg max-w-md shadow-lg filter drop-shadow-lg relative w-[90%] md:w-full">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-stone-100 p-6 rounded-lg max-w-md shadow-lg w-[90%]">
             <h2 className="text-xl font-bold mb-4">Personalized Assessment</h2>
             <p className="mb-6">
               To continue, please take the assessment to get more personalized
