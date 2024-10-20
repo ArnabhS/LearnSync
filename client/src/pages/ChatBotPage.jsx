@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import { Link } from "react-router-dom";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { ImVolumeMute2 } from "react-icons/im";
+import { useSelector } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -20,6 +21,8 @@ export default function ChatBotPage() {
   const [showMCQModal, setShowMCQModal] = useState(false);
   const messagesEndRef = useRef(null);
   const [loading, setLoading] = useState(false); // Loading state
+
+  const token = useSelector((state) => state.auth.token);
 
   // Listen feature
   const [synth] = useState(window.speechSynthesis);
@@ -41,7 +44,11 @@ export default function ChatBotPage() {
       const response = await axios.post(
         `${BASE_URL}/api/v1/chat-bot`,
         { message: message.text },
-        { withCredentials: true }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Make sure `token` is defined and valid
+          },
+        }
       );
 
       // console.log(response.data);

@@ -31,7 +31,6 @@ const registerUser = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        token: generateToken(user._id),
       });
     } else {
       res.status(400);
@@ -62,7 +61,7 @@ const loginUser = async (req, res) => {
         firstLoginQuestions = questions.slice(0, 5);
       }
 
-      return res.cookie("jwt", token, { httpOnly: true }).json({
+      return res.status(200).json({
         _id: user._id,
         name: user.name,
         email: user.email,
@@ -74,7 +73,7 @@ const loginUser = async (req, res) => {
       throw new Error("Invalid email or password");
     }
   } catch (error) {
-    (error.message);
+    error.message;
     res.status(500).json("Internal Server Error");
   }
 };

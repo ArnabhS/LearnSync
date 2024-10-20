@@ -5,12 +5,20 @@ import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import ChatBotPage from "./pages/ChatBotPage";
 import Question from "./pages/Question";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Signup from "./pages/Signup";
+import { checkUserSession } from "./redux/authSlice";
+import { useEffect } from "react";
 
 function App() {
-  const { user, loading } = useSelector((state) => state.auth);
-  if (loading) return <div>Loading...</div>;
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    if (token) {
+      dispatch(checkUserSession()); // Load user data when the app starts
+    }
+  }, [dispatch, token]);
   return (
     <Router>
       <Routes>
@@ -18,7 +26,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/chat" element={user ? <ChatBotPage /> : <Login />} />
+          <Route path="/chat" element={token ? <ChatBotPage /> : <Login />} />
           <Route path="/questions" element={<Question />} />
         </Route>
       </Routes>
