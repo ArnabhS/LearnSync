@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { HiSpeakerWave } from "react-icons/hi2";
 import { ImVolumeMute2 } from "react-icons/im";
 
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export default function ChatBotPage() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
@@ -30,18 +32,19 @@ export default function ChatBotPage() {
   // Function to send messages to the bot and update the chat
   const sendMessage = async (message) => {
     if (message.text.trim() === "") return;
+    setInput("");
 
     setMessages((prevMessages) => [...prevMessages, message]);
     setLoading(true); // Start loading
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/v1/chat-bot",
+        `${BASE_URL}/api/v1/chat-bot`,
         { message: message.text },
         { withCredentials: true }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
 
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -91,13 +94,13 @@ export default function ChatBotPage() {
 
             <div className="w-full md:w-[96%] lg:w-[90%] mx-auto p-1 md:p-2 flex justify-between gap-1 space-x-2 mb-10">
               {[
-                "Your Personalized Learning Companion!",
-                "Where AI Meets Empathy for Meaningful Growth",
-                "Understanding You, Enhancing Learning",
+                "What's git and github?",
+                "In short define force",
+                "What is gravity?",
               ].map((text) => (
                 <div
                   key={text}
-                  className="bg-[#00bfff] bg-opacity-30 p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] transition duration-300 text-lg shadow-2xl shadow-[#00FFAE]"
+                  className="bg-[#00bfff] bg-opacity-30 p-4 rounded-lg hover:bg-opacity-50 w-[34.5%] transition duration-300 text-lg shadow-2xl shadow-[#00FFAE] cursor-pointer"
                   onClick={() => handleCardClick(text)}
                 >
                   <p className="text-center text-[#DCECF2]">{text}</p>
@@ -141,7 +144,7 @@ export default function ChatBotPage() {
               ))}
 
               {loading && (
-                <div className="text-center text-white">Typing...</div>
+                <div className="text-center text-white">Generating...</div>
               )}
 
               <div ref={messagesEndRef} />
