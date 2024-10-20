@@ -8,13 +8,16 @@
 
 LearnSync AI is an innovative adaptive learning assessment system that incorporates personality tests to detect disorders like ADHD, dyslexia, and autism, followed by personalized AI responses. This project aims to create a more inclusive and effective learning environment for all users.
 
+## 🚀 Live here - https://learn-sync-v1.vercel.app
+
 ## 🌟 Features
 
 - 📝 Personality test for detecting learning disorders
 - 🤖 AI-powered disorder detection
-- 💬 Interactive chatbot with personalized responses
+- 💬 Interactive companion with personalized responses
 - 📊 Adaptive learning interface
 - 🔐 User authentication and session management
+- 🗣️ Text-to-Speech: React Window Synthesizer
 
 ## 🛠️ Tech Stack
 
@@ -50,7 +53,7 @@ LearnSync AI is an innovative adaptive learning assessment system that incorpora
    ```
 
 3. Set up environment variables:
-   Create a `.env` file in the root directory and add the following:
+   Create a `.env` file in the client directory and add the following:
 
    ```
    VITE_API_BASE_URL=http://localhost:5000
@@ -76,7 +79,7 @@ LearnSync AI is an innovative adaptive learning assessment system that incorpora
    ```
 
 3. Set up environment variables:
-   Create a `.env` file in the root directory and add the following:
+   Create a `.env` file in the server directory and add the following:
 
    ```
    MONGODB_URI=your_mongodb_connection_string
@@ -97,7 +100,7 @@ LearnSync AI is an innovative adaptive learning assessment system that incorpora
 - `POST /api/v1/auth/login`: User authentication
 - `GET /api/v1/auth/get-questions`: Fetch personality test questions
 - `POST /api/v1/test/submit-answers`: Submit personality test answers
-- `POST /api/v1/chat-bot`: Get chatbot responses
+- `POST /api/v1/chat-bot`: Get AI-powered responses
 
 ## 🤝 Contributing
 
@@ -112,7 +115,7 @@ This project is licensed under: [MIT licensed](./LICENSE)
 - [Cohere](https://cohere.ai/) for providing the AI API
 - [MongoDB](https://www.mongodb.com/) for the database solution
 - [Framer Motion](https://www.framer.com/motion/) for smooth animations
-- All contributors who have helped shape LearnSync AI
+- All contributors who have helped shape LearnSync
 
 ---
 

@@ -2,7 +2,6 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db.js");
-// const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes.js");
 const chatBotRoutes = require("./routes/chatbotRoutes.js");
 const testRoutes = require("./routes/testRoutes.js");
