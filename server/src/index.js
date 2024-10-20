@@ -20,9 +20,10 @@ app.use(
     origin: process.env.CORS_ORIGIN || "*",
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type"],
   })
 );
+app.options("*", cors());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/test", testRoutes);
