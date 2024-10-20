@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,6 +15,7 @@ export default function Questions() {
   const [answers, setAnswers] = useState([]);
   const navigate = useNavigate();
 
+  const token = useSelector((state) => state.auth.token);
   // Fetch questions from API
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -21,7 +23,9 @@ export default function Questions() {
         const response = await axios.get(
           `${BASE_URL}/api/v1/auth/get-questions`,
           {
-            withCredentials: true,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
         );
         const data = response.data;
@@ -82,7 +86,9 @@ export default function Questions() {
         `${BASE_URL}/api/v1/test/submit-answers`,
         { answers: finalAnswersArray },
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
       // console.log("Answers submitted successfully:", response.data);

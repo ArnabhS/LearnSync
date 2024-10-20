@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db.js");
-const cookieParser = require("cookie-parser");
+// const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/authRoutes.js");
 const chatBotRoutes = require("./routes/chatbotRoutes.js");
 const testRoutes = require("./routes/testRoutes.js");
@@ -12,18 +12,15 @@ dotenv.config();
 
 connectDB();
 
-app.use(express.json());
-app.use(cookieParser());
-
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "*",
     credentials: true,
+    origin: process.env.CORS_ORIGIN,
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type"],
   })
 );
-app.options("*", cors());
+
+app.use(express.json());
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/test", testRoutes);

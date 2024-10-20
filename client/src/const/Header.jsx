@@ -1,17 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../redux/authSlice";
+import { logout } from "../redux/authSlice";
 import toast from "react-hot-toast";
 import Logo from "../assets/Logo.png"; // Importing the image
 
 export default function Header() {
-  const { user } = useSelector((state) => state.auth);
+  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logout());
     toast.success("Logout Success", {
       style: {
         borderRadius: "10px",
@@ -32,7 +32,7 @@ export default function Header() {
         LearnSync
       </Link>
 
-      {user ? (
+      {token ? (
         <button
           onClick={handleLogout}
           className="w-[20%] md:w-[12%] lg:w-[8%] py-1 lg:py-1 rounded-lg bg-gradient-to-r from-[#E28C8C] to-[#912D1D] text-white flex items-center justify-center text-sm lg:text-lg"
