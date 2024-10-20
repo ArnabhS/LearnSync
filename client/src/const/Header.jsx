@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/authSlice";
 import toast from "react-hot-toast";
+import Logo from "../assets/Logo.png"; // Importing the image
 
 export default function Header() {
   const { user } = useSelector((state) => state.auth);
@@ -25,8 +26,9 @@ export default function Header() {
     <div className="mt-4 mb-2 w-[98%] lg:w-[96%] mx-auto flex items-center justify-between">
       <Link
         to={"/"}
-        className="text-white font-bold text-lg leading-6 lg:text-2xl"
+        className="flex items-center text-white font-bold text-lg leading-6 lg:text-2xl"
       >
+        <img src={Logo} alt="Logo" className="w-auto h-14" />
         LearnSync
       </Link>
 
