@@ -5,7 +5,7 @@ const { analyzeDisorders } = require("../utils/aiService.js");
 const submitAnswers = async (req, res) => {
   const userId = req.user._id;
   const { answers } = req.body; // Array of new answers from the frontend
-
+    // console.log(answers)
   // Find the user by ID
   const user = await User.findById(userId);
 
@@ -17,14 +17,14 @@ const submitAnswers = async (req, res) => {
     currentQuestionsAnswered,
     currentQuestionsAnswered + answers.length
   );
-
+  
   // Pair the user's new answers with the respective questions
   const newQuestionAnswerPairs = answers.map((answer, index) => ({
     question: questionSlice[index].question,
     options: questionSlice[index].options,
     answer: answer,
   }));
-
+  console.log(newQuestionAnswerPairs)
   // Retrieve the user's previous answers from the user model
   const previousQuestionAnswerPairs = user.answers.map((answer, index) => ({
     question: questions[index].question, // Map to the question from the question bank
@@ -37,7 +37,7 @@ const submitAnswers = async (req, res) => {
     ...previousQuestionAnswerPairs,
     ...newQuestionAnswerPairs,
   ];
-
+  console.log(combinedQuestionAnswerPairs)
   // Update the number of questions answered
   user.questionsAnswered += answers.length;
 

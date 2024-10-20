@@ -5,6 +5,7 @@ const connectDB = require('./config/db.js');
 const cookieParser = require('cookie-parser');
 const authRoutes = require('./routes/authRoutes.js')
 const chatBotRoutes = require('./routes/chatbotRoutes.js')
+const testRoutes = require('./routes/testRoutes.js')
 const app = express();
 
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/v1/auth',authRoutes)
+app.use('/api/v1/test',testRoutes)
 app.use('/api/v1/chat-bot',chatBotRoutes)
 
 const PORT = process.env.PORT || 5000;
