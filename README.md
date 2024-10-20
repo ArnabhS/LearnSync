@@ -6,7 +6,7 @@
 <img src="images/4.png">
 <img src="images/5.png">
 
-LearnSync AI is an innovative adaptive learning assessment system that incorporates personality tests to detect disorders like ADHD, dyslexia, and autism, followed by personalized AI responses. This project aims to create a more inclusive and effective learning environment for all users.
+LearnSync is an innovative adaptive learning assessment system that incorporates personality tests to detect disorders like ADHD, dyslexia, and autism, followed by personalized AI responses. This project aims to create a more inclusive and effective learning environment for all users.
 
 ## 🚀 Live here - https://learn-sync-v1.vercel.app
 
