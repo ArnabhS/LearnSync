@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/authSlice";
 import Questions from "./Question";
+import toast from "react-hot-toast";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -19,6 +20,14 @@ export default function Login() {
     const result = await dispatch(loginUser({ email, password }));
     console.log(result);
     if (result.meta.requestStatus === "fulfilled") {
+      toast.success("Log In Success", {
+        icon: "👏",
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
       // Redirect to home if no questions, otherwise show the MCQCard
       if (result.payload.firstLoginQuestions?.length > 0) {
         navigate("/questions"); // Optional: redirect to a new route for the questions

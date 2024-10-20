@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/authSlice";
+import toast from "react-hot-toast";
 
 export default function Header() {
   const { user } = useSelector((state) => state.auth);
@@ -10,6 +11,13 @@ export default function Header() {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    toast.success("Logout Success", {
+      style: {
+        borderRadius: "10px",
+        background: "#333",
+        color: "#fff",
+      },
+    });
     navigate("/login");
   };
 
